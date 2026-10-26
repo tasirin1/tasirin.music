@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tasirin Music</string>
+    <string name="search_hint">Cari lagu atau artis</string>
+    <string name="empty_no_permission">Izin akses audio diperlukan agar daftar lagu bisa ditampilkan.</string>
+    <string name="empty_no_songs">Tidak ada lagu ditemukan di perangkat ini.</string>
+    <string name="channel_name">Pemutaran musik</string>
+    <string name="loading">Memuat…</string>
+</resources>
