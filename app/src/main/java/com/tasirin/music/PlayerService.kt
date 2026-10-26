@@ -210,7 +210,7 @@ class PlayerService : Service() {
             putExtra(EXTRA_INDEX, currentIndex)
             putExtra(EXTRA_TITLE, song?.title ?: "")
             putExtra(EXTRA_ARTIST, song?.artist ?: "")
-            putExtra(EXTRA_PLAYING, player?.isPlaying == true)
+            putExtra(EXTRA_PLAYING, runCatching { player?.isPlaying == true }.getOrDefault(false))
             putExtra(EXTRA_POSITION, if (prepared) player?.currentPosition ?: 0 else 0)
             putExtra(EXTRA_DURATION, if (prepared) player?.duration ?: 0 else (song?.durationMs?.toInt() ?: 0))
         }

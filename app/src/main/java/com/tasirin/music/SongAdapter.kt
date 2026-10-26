@@ -35,16 +35,16 @@ class SongAdapter(
     fun originalIndexOf(shownPosition: Int): Int = allSongs.indexOf(shown[shownPosition])
 
     fun setCurrent(index: Int) {
-        val old = currentIndex
+        val oldShown = shownPositionOf(currentIndex)
         currentIndex = index
-        if (old >= 0) {
-            val oldShown = shown.indexOf(allSongs.getOrNull(old))
-            if (oldShown >= 0) notifyItemChanged(oldShown)
-        }
-        if (index >= 0) {
-            val newShown = shown.indexOf(allSongs.getOrNull(index))
-            if (newShown >= 0) notifyItemChanged(newShown)
-        }
+        if (oldShown >= 0) notifyItemChanged(oldShown)
+        val newShown = shownPositionOf(index)
+        if (newShown >= 0) notifyItemChanged(newShown)
+    }
+
+    private fun shownPositionOf(allIndex: Int): Int {
+        if (allIndex !in allSongs.indices) return -1
+        return shown.indexOf(allSongs[allIndex])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
