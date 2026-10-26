@@ -1,0 +1,249 @@
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // defpackage.ml, androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
+    public final void onCreate(Bundle bundle) {
+        ViewPager2 viewPager2;
+        Bundle extras;
+        Bundle extras2;
+        Bundle extras3;
+        super.onCreate(bundle);
+        setContentView(R.layout.main);
+        float f = UptodownApp.I;
+        if (uy2.n(this)) {
+            startActivity(new Intent(this, (Class<?>) TvMainActivity.class));
+            finish();
+            return;
+        }
+        this.o0 = (FrameLayout) findViewById(R.id.fl_sign_in_popup);
+        this.q0 = (FrameLayout) findViewById(R.id.fl_uptodown_turbo_popup);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_splash);
+        this.O = relativeLayout;
+        relativeLayout.getClass();
+        int i = 8;
+        relativeLayout.setOnClickListener(new pb(i));
+        this.M = (RelativeLayout) findViewById(R.id.app_info_selected_popup);
+        if (UptodownApp.f0) {
+            RelativeLayout relativeLayout2 = this.O;
+            relativeLayout2.getClass();
+            relativeLayout2.setVisibility(8);
+        }
+        this.S = (RelativeLayout) findViewById(R.id.rl_wizard);
+        this.T = (RelativeLayout) findViewById(R.id.rl_wizard_placeholder);
+        T();
+        this.U = (AppBarLayout) findViewById(R.id.abl_toolbar);
+        ((ImageView) findViewById(R.id.home_uptodown_logo)).setOnClickListener(new nf1(20, this));
+        int i2 = 29;
+        ((RelativeLayout) findViewById(R.id.rl_main_search_view)).setOnClickListener(new nf1(i2, this));
+        int i3 = 5;
+        ((ImageView) findViewById(R.id.home_uptodown_turbo)).setOnClickListener(new pf1(i3, this));
+        A1();
+        String strY = ov2.y(this, "app_id_after_kill");
+        int i4 = 2;
+        int i5 = 3;
+        int i6 = 1;
+        int i7 = 0;
+        Object[] objArr = 0;
+        Object[] objArr2 = 0;
+        Object[] objArr3 = 0;
+        Object[] objArr4 = 0;
+        Object[] objArr5 = 0;
+        Object[] objArr6 = 0;
+        Object[] objArr7 = 0;
+        if (strY != null) {
+            zb zbVar = new zb();
+            zbVar.a = Long.parseLong(strY);
+            z0(zbVar);
+            ov2.R(this, "app_id_after_kill", null);
+        } else if (!ov2.r(this, "wizard_completed", false)) {
+            ov2.Q(System.currentTimeMillis(), this, "last_sign_in_request_timestamp");
+            RelativeLayout relativeLayout3 = this.T;
+            relativeLayout3.getClass();
+            relativeLayout3.setOnClickListener(new pb(i));
+            RelativeLayout relativeLayout4 = this.T;
+            relativeLayout4.getClass();
+            relativeLayout4.setVisibility(0);
+            RelativeLayout relativeLayout5 = this.S;
+            relativeLayout5.getClass();
+            relativeLayout5.setVisibility(8);
+            RelativeLayout relativeLayout6 = this.S;
+            relativeLayout6.getClass();
+            relativeLayout6.setOnClickListener(new pb(i));
+            if (ov2.E(1, this) && ov2.r(this, "gdpr_requested", false)) {
+                RelativeLayout relativeLayout7 = this.S;
+                relativeLayout7.getClass();
+                relativeLayout7.setVisibility(0);
+                J0(b1(), 3);
+                if (!ov2.E(4, this)) {
+                    J0(e1(), 4);
+                }
+                if (!ov2.E(5, this)) {
+                    if (b03.h(this) != null) {
+                        ov2.M(this, "wizard_step_5_shown", true);
+                    } else {
+                        J0(d1(), 5);
+                    }
+                }
+            } else {
+                J0(f1(), 1);
+            }
+            this.P = 0;
+            Object obj = this.Q.get(0);
+            obj.getClass();
+            p1((q63) obj);
+            LifecycleCoroutineScope lifecycleScope = LifecycleOwnerKt.getLifecycleScope(this);
+            sb0 sb0Var = fe0.a;
+            db4.p(lifecycleScope, qb0.a, null, new tf1(this, objArr == true ? 1 : 0, i4), 2);
+        }
+        runOnUiThread(new qf1(i4, this));
+        uy2.F(this);
+        if (!ov2.r(this, "is_in_eea_checked", false)) {
+            db4.p(LifecycleOwnerKt.getLifecycleScope(this), null, null, new tf1(this, objArr7 == true ? 1 : 0, i5), 3);
+        }
+        if (getIntent() != null) {
+            Intent intent = getIntent();
+            intent.getClass();
+            if ((intent.getFlags() & 1048576) != 1048576) {
+                Uri data = getIntent().getData();
+                if (data != null) {
+                    String string = data.toString();
+                    string.getClass();
+                    String strC = ew0.c(data, this);
+                    ActivityResultLauncher activityResultLauncher = this.A0;
+                    if (strC != null && wk2.V(strC, ".apk", false)) {
+                        String strB = ms3.B(strC);
+                        if (strB != null) {
+                            hb0 hb0Var = new hb0();
+                            hb0Var.c = strB;
+                            LifecycleCoroutineScope lifecycleScope2 = LifecycleOwnerKt.getLifecycleScope(this);
+                            sb0 sb0Var2 = fe0.a;
+                            db4.p(lifecycleScope2, kg1.a, null, new cd(this, strB, hb0Var, objArr6 == true ? 1 : 0, 3), 2);
+                        } else {
+                            Intent intent2 = new Intent(getApplicationContext(), (Class<?>) InstallerActivity.class);
+                            intent2.setData(data);
+                            activityResultLauncher.launch(intent2);
+                        }
+                    } else if (strC != null && (wk2.V(strC, ".xapk", true) || wk2.V(strC, ".apks", true) || wk2.V(strC, ".apkm", true) || wk2.V(strC, ".zip", true))) {
+                        Intent intent3 = new Intent(getApplicationContext(), (Class<?>) InstallerActivity.class);
+                        intent3.setData(data);
+                        activityResultLauncher.launch(intent3);
+                    } else if (wk2.b0(string, "https://dw.uptodown.com/dwn/", false)) {
+                        db4.p(LifecycleOwnerKt.getLifecycleScope(this), qb0.a, null, new bg1(this, string, objArr5 == true ? 1 : 0, i7), 2);
+                    } else if (pk2.f0(string, "preregister-available", false)) {
+                        String queryParameter = data.getQueryParameter("appID");
+                        if (queryParameter != null && queryParameter.length() != 0) {
+                            try {
+                                String queryParameter2 = data.getQueryParameter("appID");
+                                queryParameter2.getClass();
+                                k0(Long.parseLong(queryParameter2));
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else if (!uy2.n(this)) {
+                        Locale locale = sw.a;
+                        db4.p(LifecycleOwnerKt.getLifecycleScope(this), qb0.a, null, new bg1(this, sw.h(data), objArr4 == true ? 1 : 0, i6), 2);
+                    }
+                }
+                Intent intent4 = getIntent();
+                String string2 = (intent4 == null || (extras3 = intent4.getExtras()) == null) ? null : extras3.getString("action");
+                if (string2 != null) {
+                    int i8 = MyFirebaseMessagingService.s;
+                    if (string2.equalsIgnoreCase("notificationApp")) {
+                        Intent intent5 = getIntent();
+                        String string3 = (intent5 == null || (extras2 = intent5.getExtras()) == null) ? null : extras2.getString("appId");
+                        if (string3 != null) {
+                            w22 w22Var = new w22();
+                            w22Var.a = -1L;
+                            try {
+                                w22Var.a = Long.parseLong(string3);
+                            } catch (NumberFormatException e2) {
+                                e2.printStackTrace();
+                            }
+                            if (w22Var.a > 0) {
+                                Bundle extras4 = getIntent().getExtras();
+                                String string4 = extras4 != null ? extras4.getString("packageName") : null;
+                                long j = w22Var.a;
+                                long jCurrentTimeMillis = System.currentTimeMillis();
+                                ov2.Q(j, this, "fcm_app_id");
+                                ov2.R(this, "fcm_packagename", string4);
+                                ov2.O(this, -1, "fcm_download_id");
+                                ov2.Q(jCurrentTimeMillis, this, "fcm_received_timestamp");
+                                ov2.Q(0L, this, "fcm_shown_timestamp");
+                                LifecycleCoroutineScope lifecycleScope3 = LifecycleOwnerKt.getLifecycleScope(this);
+                                sb0 sb0Var3 = fe0.a;
+                                db4.p(lifecycleScope3, kg1.a, null, new ra((Object) this, (Object) w22Var, (r00) (objArr3 == true ? 1 : 0), i2), 2);
+                            }
+                        }
+                    } else if (string2.equalsIgnoreCase("campaign")) {
+                        Intent intent6 = getIntent();
+                        String string5 = (intent6 == null || (extras = intent6.getExtras()) == null) ? null : extras.getString("campaign");
+                        if (string5 != null && string5.equalsIgnoreCase("BlackFriday")) {
+                            y0();
+                        }
+                    }
+                } else {
+                    jp1 jp1VarZ = rk3.z(this);
+                    if (jp1VarZ != null && jp1VarZ.e <= 0) {
+                        LifecycleCoroutineScope lifecycleScope4 = LifecycleOwnerKt.getLifecycleScope(this);
+                        sb0 sb0Var4 = fe0.a;
+                        db4.p(lifecycleScope4, kg1.a, null, new ra((Object) this, (Object) jp1VarZ, (r00) (objArr2 == true ? 1 : 0), 27), 2);
+                    }
+                }
+            }
+        }
+        getOnBackPressedDispatcher().addCallback(this, this.z0);
+        int i9 = 6;
+        this.K = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new of1(i9, this));
+        ViewPager2 viewPager3 = (ViewPager2) findViewById(R.id.view_pager);
+        this.d0 = viewPager3;
+        if (viewPager3 != null) {
+            viewPager3.setOffscreenPageLimit(4);
+        }
+        ViewPager2 viewPager4 = this.d0;
+        if (viewPager4 != null) {
+            viewPager4.setUserInputEnabled(false);
+        }
+        this.h0 = (TabLayout) findViewById(R.id.tabs);
+        this.f0 = (RelativeLayout) findViewById(R.id.rl_app_detail_open);
+        ImageView imageView = (ImageView) findViewById(R.id.iv_avatar_user);
+        this.r0 = imageView;
+        if (imageView != null) {
+            imageView.setOnClickListener(new pf1(i9, this));
+        }
+        ImageView imageView2 = this.r0;
+        if (imageView2 != null) {
+            ViewParent parent = imageView2.getParent();
+            View view = parent instanceof View ? (View) parent : null;
+            if (view != null) {
+                view.post(new qr0(7, imageView2, this));
+            }
+        }
+        this.s0 = (ImageView) findViewById(R.id.iv_badge_user);
+        hg1 hg1Var = new hg1(this, getSupportFragmentManager(), getLifecycle());
+        ViewPager2 viewPager5 = this.d0;
+        if (viewPager5 != null) {
+            viewPager5.setAdapter(hg1Var);
+        }
+        if (UptodownApp.f0) {
+            ViewPager2 viewPager6 = this.d0;
+            if (viewPager6 != null) {
+                viewPager6.setCurrentItem(B0, false);
+            }
+            UptodownApp.f0 = false;
+            if (B0 == 3) {
+                AppBarLayout appBarLayout = this.U;
+                appBarLayout.getClass();
+                appBarLayout.setVisibility(0);
+                AppBarLayout appBarLayout2 = this.U;
+                appBarLayout2.getClass();
+                appBarLayout2.setExpanded(false, false);
+            }
+        }
+        TabLayout tabLayout = this.h0;
+        if (tabLayout == null || (viewPager2 = this.d0) == null) {
+            return;
+        }
+        new TabLayoutMediator(tabLayout, viewPager2, new of1(i3, this)).attach();
+        TabLayout tabLayout2 = this.h0;
+        tabLayout2.getClass();
+        tabLayout2.addOnTabSelectedListener((TabLayout.OnTabSelectedListener) new gg1(this));
+    }
