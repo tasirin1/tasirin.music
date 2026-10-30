@@ -2,7 +2,22 @@
 
 Pemutar musik offline sederhana untuk Android. Memutar berkas audio yang tersimpan di perangkat, tanpa akun dan tanpa internet.
 
-Repo ini juga menyimpan [ANALISIS.md](ANALISIS.md): hasil bedah sebuah APK yang namanya menyerupai Musicolet tetapi isinya ternyata aplikasi lain. Aplikasi di repo ini adalah karya asli yang terinspirasi kebutuhan yang sama (memutar musik lokal), bukan salinan kode aplikasi mana pun.
+Repo ini juga menyimpan dua dokumen bedah APK:
+
+- [ANALISIS.md](ANALISIS.md): bedah sebuah APK yang namanya menyerupai Musicolet tetapi isinya ternyata aplikasi lain.
+- [ANALISIS-MUSICOLET.md](ANALISIS-MUSICOLET.md): bedah Musicolet 6.7.3 asli (manifes, izin, komponen, changelog) yang menjadi peta fitur tiruan proyek ini.
+
+Aplikasi di repo ini adalah karya asli yang terinspirasi kebutuhan yang sama (memutar musik lokal), bukan salinan kode aplikasi mana pun.
+
+## Fitur v1.1
+
+- Semua fitur v1.0 di bawah.
+- Mode **acak** dan **ulang** (mati / semua lagu / satu lagu).
+- **Antrean putar**: lihat sisa antrean dan lompat ke lagu mana pun di dalamnya.
+- **Pengatur waktu tidur**: pemutaran berhenti sendiri setelah 5–60 menit.
+- **Sampul album** di daftar lagu dan di notifikasi pemutaran.
+- **Sesi media (MediaSession)**: kontrol dari headset/Bluetooth dan layar kunci.
+- **Ingat sesi terakhir**: lagu, posisi putar, mode acak dan ulang dipulihkan saat layanan dibuat lagi.
 
 ## Fitur v1.0
 
@@ -17,7 +32,7 @@ Repo ini juga menyimpan [ANALISIS.md](ANALISIS.md): hasil bedah sebuah APK yang 
 
 - Kotlin, minSdk 24, targetSdk 34.
 - Antarmuka klasik Android View dengan ViewBinding dan RecyclerView.
-- Pemutaran memakai MediaPlayer bawaan Android di dalam foreground service.
+- Pemutaran memakai MediaPlayer bawaan Android di dalam foreground service, dibungkus MediaSession untuk kontrol eksternal.
 - Build sepenuhnya lewat GitHub Actions (`.github/workflows/build.yml`), menghasilkan artefak `tasirin-music-debug` berisi APK debug.
 
 ## Cara mengambil APK
@@ -28,7 +43,11 @@ Repo ini juga menyimpan [ANALISIS.md](ANALISIS.md): hasil bedah sebuah APK yang 
 
 ## Peta jalan
 
-- Antrean putar dan mode acak/ulang.
-- Tab artis dan album.
-- Ekualiser dan pengatur waktu tidur.
-- Sampul album dari metadata berkas.
+Mengikuti peta fitur di [ANALISIS-MUSICOLET.md](ANALISIS-MUSICOLET.md):
+
+- Tab album, artis, dan folder; pilihan urutan sortir.
+- Multi-antrean: beberapa antrean mandiri yang bisa berpindah tanpa kehilangan posisi.
+- Playlist buatan pengguna.
+- Editor tag dan lirik (termasuk lirik tersinkron).
+- Ekualiser dan ReplayGain.
+- Cadangan/pulih (backup/restore) dan daftar lagu paling sering diputar.

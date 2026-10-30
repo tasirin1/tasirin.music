@@ -6,4 +6,16 @@
     <string name="empty_no_songs">Tidak ada lagu ditemukan di perangkat ini.</string>
     <string name="channel_name">Pemutaran musik</string>
     <string name="loading">Memuat…</string>
+    <string name="shuffle">Acak</string>
+    <string name="shuffle_on">Acak (Nyala)</string>
+    <string name="repeat">Ulang</string>
+    <string name="repeat_all">Ulang: Semua</string>
+    <string name="repeat_one">Ulang: 1 Lagu</string>
+    <string name="queue">Antrean</string>
+    <string name="queue_title">Antrean putar</string>
+    <string name="queue_empty">Antrean masih kosong — putar sebuah lagu dulu.</string>
+    <string name="sleep_timer">Tidur</string>
+    <string name="sleep_on">Tidur %1$s</string>
+    <string name="sleep_title">Pengatur waktu tidur</string>
+    <string name="sleep_off">Mati</string>
 </resources>

@@ -57,8 +57,10 @@ class SongAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val song = shown[position]
         holder.binding.songTitle.text = song.title
-        holder.binding.songArtist.text = song.artist
+        holder.binding.songArtist.text =
+            if (song.album.isBlank()) song.artist else "${song.artist} • ${song.album}"
         holder.binding.songDuration.text = formatDuration(song.durationMs)
+        ArtworkLoader.loadInto(holder.itemView.context, song.albumId, holder.binding.songArt)
         val isCurrent = allSongs.indexOf(song) == currentIndex
         holder.binding.songTitle.typeface =
             if (isCurrent) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
