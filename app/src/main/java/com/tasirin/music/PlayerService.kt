@@ -18,7 +18,6 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
@@ -29,6 +28,8 @@ class PlayerService : Service() {
         const val ACTION_PLAY_INDEX = "com.tasirin.music.PLAY_INDEX"
         const val ACTION_PLAY_ID = "com.tasirin.music.PLAY_ID"
         const val ACTION_TOGGLE = "com.tasirin.music.TOGGLE"
+        const val ACTION_PLAY = "com.tasirin.music.PLAY"
+        const val ACTION_PAUSE = "com.tasirin.music.PAUSE"
         const val ACTION_NEXT = "com.tasirin.music.NEXT"
         const val ACTION_PREV = "com.tasirin.music.PREV"
         const val ACTION_SEEK = "com.tasirin.music.SEEK"
@@ -183,9 +184,6 @@ class PlayerService : Service() {
         ensureForeground()
         ensurePlaylist()
         restoreIfNeeded()
-        if (intent != null && ::session.isInitialized) {
-            MediaButtonReceiver.handleIntent(session, intent)
-        }
         when (intent?.action) {
             ACTION_PLAY_INDEX -> {
                 val index = intent.getIntExtra(EXTRA_INDEX, -1)
@@ -201,6 +199,8 @@ class PlayerService : Service() {
                 }
             }
             ACTION_TOGGLE -> toggle()
+            ACTION_PLAY -> play()
+            ACTION_PAUSE -> pause()
             ACTION_NEXT -> playNext(auto = false)
             ACTION_PREV -> playPrev()
             ACTION_SEEK -> seekTo(intent.getIntExtra(EXTRA_POS, 0))
@@ -336,6 +336,10 @@ class PlayerService : Service() {
 
     private fun play() {
         val p = player ?: return
+        if (!prepared && currentIndex >= 0) {
+            // Lagu hasil pulih sesi belum selesai disiapkan: putar begitu siap.
+            playWhenReady = true
+        }
         if (prepared && !p.isPlaying) {
             requestFocus()
             p.start()
