@@ -12,7 +12,7 @@ class SongAdapter(
 
     private var allSongs: List<Song> = emptyList()
     private var shown: List<Song> = emptyList()
-    private var currentIndex: Int = -1
+    private var currentSongId: Long = -1L
 
     fun submit(songs: List<Song>) {
         allSongs = songs
@@ -32,19 +32,18 @@ class SongAdapter(
         notifyDataSetChanged()
     }
 
-    fun originalIndexOf(shownPosition: Int): Int = allSongs.indexOf(shown[shownPosition])
+    /** Id lagu-lagu yang sedang tampil, sesuai urutan tampil (untuk konteks putar). */
+    fun shownIds(): LongArray = LongArray(shown.size) { shown[it].id }
 
-    fun setCurrent(index: Int) {
-        val oldShown = shownPositionOf(currentIndex)
-        currentIndex = index
-        if (oldShown >= 0) notifyItemChanged(oldShown)
-        val newShown = shownPositionOf(index)
-        if (newShown >= 0) notifyItemChanged(newShown)
-    }
+    fun songAt(shownPosition: Int): Song? = shown.getOrNull(shownPosition)
 
-    private fun shownPositionOf(allIndex: Int): Int {
-        if (allIndex !in allSongs.indices) return -1
-        return shown.indexOf(allSongs[allIndex])
+    fun setCurrentId(songId: Long) {
+        if (songId == currentSongId) return
+        val oldPos = shown.indexOfFirst { it.id == currentSongId }
+        currentSongId = songId
+        if (oldPos >= 0) notifyItemChanged(oldPos)
+        val newPos = shown.indexOfFirst { it.id == songId }
+        if (newPos >= 0) notifyItemChanged(newPos)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -60,12 +59,14 @@ class SongAdapter(
         holder.binding.songArtist.text =
             if (song.album.isBlank()) song.artist else "${song.artist} • ${song.album}"
         holder.binding.songDuration.text = formatDuration(song.durationMs)
+        holder.binding.songArtist.setTextColor(0xFFBDBDBD.toInt())
+        holder.binding.songDuration.setTextColor(0xFF9E9E9E.toInt())
         ArtworkLoader.loadInto(holder.itemView.context, song.albumId, holder.binding.songArt)
-        val isCurrent = allSongs.indexOf(song) == currentIndex
+        val isCurrent = song.id == currentSongId
         holder.binding.songTitle.typeface =
             if (isCurrent) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
         holder.binding.songTitle.setTextColor(
-            if (isCurrent) 0xFF5E35B1.toInt() else 0xFF212121.toInt()
+            if (isCurrent) 0xFFB388FF.toInt() else 0xFFF5F5F5.toInt()
         )
         holder.itemView.setOnClickListener { onClick(position) }
     }

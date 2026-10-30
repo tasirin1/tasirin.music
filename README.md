@@ -9,6 +9,16 @@ Repo ini juga menyimpan dua dokumen bedah APK:
 
 Aplikasi di repo ini adalah karya asli yang terinspirasi kebutuhan yang sama (memutar musik lokal), bukan salinan kode aplikasi mana pun.
 
+## Fitur v1.2
+
+Menyesuaikan struktur dan tampilan dengan Musicolet:
+
+- Tema gelap penuh, seperti tampilan bawaan Musicolet.
+- Bilah navigasi bawah: **Lagu, Album, Artis, Folder, Genre**.
+- Album tampil sebagai kotak-kotak sampul (grid); ketuk album/artis/folder/genre untuk membuka daftar lagunya, dan lagu diputar dalam konteks itu (antrean mengikuti isi kategori).
+- Layar **Sedang Diputar** layar penuh: sampul besar, judul/artis/album, geser posisi, kontrol putar, acak/ulang/antrean/tidur, dan panel **lirik** dari berkas pendamping `.lrc`/`.txt` di samping lagu.
+- Pilihan urutan sortir daftar lagu: judul, artis, album, baru ditambahkan, durasi terpanjang.
+
 ## Fitur v1.1
 
 - Semua fitur v1.0 di bawah.

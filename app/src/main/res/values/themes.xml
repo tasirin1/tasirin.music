@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.TasirinMusic" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.TasirinMusic" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">#5E35B1</item>
         <item name="colorPrimaryVariant">#4527A0</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#26A69A</item>
+        <item name="android:windowBackground">#0B0B0F</item>
     </style>
 </resources>

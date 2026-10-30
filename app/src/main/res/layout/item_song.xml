@@ -12,7 +12,7 @@
         android:id="@+id/songArt"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="#EDE7F6"
+        android:background="#2A2A35"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_music_note" />

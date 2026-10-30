@@ -14,15 +14,21 @@ data class Song(
     val durationMs: Long,
     val uri: Uri,
     val path: String,
-    val dateAddedSec: Long
+    val dateAddedSec: Long,
+    val genre: String
 ) {
     /** Nama folder tempat berkas lagu berada, diturunkan dari path-nya. */
     val folder: String
         get() = path.substringBeforeLast('/').substringAfterLast('/')
+
+    /** Path folder induk berkas lagu (tanpa nama berkas). */
+    val folderPath: String
+        get() = path.substringBeforeLast('/')
 }
 
 object SongLoader {
     fun load(context: Context): List<Song> {
+        val genreBySong = loadGenreMap(context)
         val songs = mutableListOf<Song>()
         val collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
@@ -56,10 +62,62 @@ object SongLoader {
                 val path = runCatching { cursor.getString(dataCol) }.getOrNull() ?: ""
                 val added = runCatching { cursor.getLong(addedCol) }.getOrDefault(0L)
                 val uri = ContentUris.withAppendedId(collection, id)
-                songs.add(Song(id, title, artist, album, albumId, duration, uri, path, added))
+                songs.add(
+                    Song(
+                        id, title, artist, album, albumId, duration, uri, path, added,
+                        genreBySong[id] ?: ""
+                    )
+                )
             }
         }
         return songs
+    }
+
+    /**
+     * MediaStore tidak menyimpan genre di tabel lagu; genre hidup di tabel
+     * sendiri dan lagu adalah anggotanya. Petakan id lagu -> nama genre
+     * pertama yang ditemukan.
+     */
+    private fun loadGenreMap(context: Context): Map<Long, String> {
+        val map = HashMap<Long, String>()
+        val genresUri = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI
+        runCatching {
+            context.contentResolver.query(
+                genresUri,
+                arrayOf(MediaStore.Audio.Genres._ID, MediaStore.Audio.Genres.NAME),
+                null,
+                null,
+                null
+            )?.use { genreCursor ->
+                val genreIdCol = genreCursor.getColumnIndexOrThrow(MediaStore.Audio.Genres._ID)
+                val genreNameCol = genreCursor.getColumnIndexOrThrow(MediaStore.Audio.Genres.NAME)
+                while (genreCursor.moveToNext()) {
+                    val genreId = genreCursor.getLong(genreIdCol)
+                    val name = genreCursor.getString(genreNameCol) ?: continue
+                    val membersUri =
+                        MediaStore.Audio.Genres.Members.getContentUri("external", genreId)
+                    context.contentResolver.query(
+                        membersUri,
+                        arrayOf(MediaStore.Audio.Genres.Members.AUDIO_ID),
+                        null,
+                        null,
+                        null
+                    )?.use { memberCursor ->
+                        val memberIdCol =
+                            memberCursor.getColumnIndexOrThrow(
+                                MediaStore.Audio.Genres.Members.AUDIO_ID
+                            )
+                        while (memberCursor.moveToNext()) {
+                            val songId = memberCursor.getLong(memberIdCol)
+                            if (!map.containsKey(songId)) {
+                                map[songId] = name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return map
     }
 }
 

@@ -18,4 +18,21 @@
     <string name="sleep_on">Tidur %1$s</string>
     <string name="sleep_title">Pengatur waktu tidur</string>
     <string name="sleep_off">Mati</string>
+    <string name="tab_songs">Lagu</string>
+    <string name="tab_albums">Album</string>
+    <string name="tab_artists">Artis</string>
+    <string name="tab_folders">Folder</string>
+    <string name="tab_genres">Genre</string>
+    <string name="now_playing">Sedang Diputar</string>
+    <string name="sort">Urutkan</string>
+    <string name="sort_title">Urutkan lagu</string>
+    <string name="sort_by_title">Judul</string>
+    <string name="sort_by_artist">Artis</string>
+    <string name="sort_by_album">Album</string>
+    <string name="sort_by_newest">Baru ditambahkan</string>
+    <string name="sort_by_longest">Durasi terpanjang</string>
+    <string name="lyrics">Lirik</string>
+    <string name="lyrics_none">Tidak ada lirik untuk lagu ini.</string>
+    <string name="genre_unknown">Tidak diketahui</string>
+    <string name="album_unnamed">Album tanpa nama</string>
 </resources>

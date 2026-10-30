@@ -27,6 +27,7 @@ class PlayerService : Service() {
     companion object {
         const val ACTION_PLAY_INDEX = "com.tasirin.music.PLAY_INDEX"
         const val ACTION_PLAY_ID = "com.tasirin.music.PLAY_ID"
+        const val ACTION_PLAY_LIST = "com.tasirin.music.PLAY_LIST"
         const val ACTION_TOGGLE = "com.tasirin.music.TOGGLE"
         const val ACTION_PLAY = "com.tasirin.music.PLAY"
         const val ACTION_PAUSE = "com.tasirin.music.PAUSE"
@@ -40,6 +41,7 @@ class PlayerService : Service() {
         const val ACTION_UPDATE = "com.tasirin.music.UPDATE"
 
         const val EXTRA_INDEX = "extra_index"
+        const val EXTRA_IDS = "extra_ids"
         const val EXTRA_SONG_ID = "extra_song_id"
         const val EXTRA_MINUTES = "extra_minutes"
         const val EXTRA_POS = "extra_pos"
@@ -67,6 +69,9 @@ class PlayerService : Service() {
     }
 
     private var player: MediaPlayer? = null
+
+    /** Seluruh pustaka lagu di perangkat; playlist adalah konteks putar aktif. */
+    private var library: List<Song> = emptyList()
     private var playlist: List<Song> = emptyList()
     private var currentIndex: Int = -1
     private var prepared: Boolean = false
@@ -186,10 +191,16 @@ class PlayerService : Service() {
         restoreIfNeeded()
         when (intent?.action) {
             ACTION_PLAY_INDEX -> {
+                playlist = library
                 val index = intent.getIntExtra(EXTRA_INDEX, -1)
                 if (index in playlist.indices) {
                     playIndex(index, rebuildOrder = true)
                 }
+            }
+            ACTION_PLAY_LIST -> {
+                val ids = intent.getLongArrayExtra(EXTRA_IDS)
+                val pos = intent.getIntExtra(EXTRA_POS, 0)
+                playList(ids, pos)
             }
             ACTION_PLAY_ID -> {
                 val songId = intent.getLongExtra(EXTRA_SONG_ID, -1L)
@@ -233,12 +244,29 @@ class PlayerService : Service() {
     // ---------------------------------------------------------------- antrean
 
     private fun ensurePlaylist() {
+        if (library.isEmpty()) {
+            library = SongLoader.load(this)
+        }
         if (playlist.isEmpty()) {
-            playlist = SongLoader.load(this)
+            playlist = library
             if (playOrder.isEmpty()) {
                 playOrder = playlist.indices.toMutableList()
             }
         }
+    }
+
+    /**
+     * Putar daftar lagu tertentu (mis. isi sebuah album/artis/folder) sebagai
+     * konteks antrean baru, mulai dari posisi [pos] di daftar itu.
+     */
+    private fun playList(ids: LongArray?, pos: Int) {
+        if (ids == null || ids.isEmpty() || library.isEmpty()) return
+        val byId = library.associateBy { it.id }
+        val newList = ids.mapNotNull { byId[it] }
+        if (newList.isEmpty()) return
+        playlist = newList
+        val start = pos.coerceIn(0, newList.lastIndex)
+        playIndex(start, rebuildOrder = true)
     }
 
     private fun rebuildOrder(startIndex: Int) {
@@ -530,6 +558,7 @@ class PlayerService : Service() {
         val intent = Intent(ACTION_UPDATE).apply {
             setPackage(packageName)
             putExtra(EXTRA_INDEX, currentIndex)
+            putExtra(EXTRA_SONG_ID, song?.id ?: -1L)
             putExtra(EXTRA_TITLE, song?.title ?: "")
             putExtra(EXTRA_ARTIST, song?.artist ?: "")
             putExtra(EXTRA_PLAYING, runCatching { player?.isPlaying == true }.getOrDefault(false))
