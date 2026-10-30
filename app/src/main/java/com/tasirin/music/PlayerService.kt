@@ -262,7 +262,10 @@ class PlayerService : Service() {
     private fun playList(ids: LongArray?, pos: Int) {
         if (ids == null || ids.isEmpty() || library.isEmpty()) return
         val byId = library.associateBy { it.id }
-        val newList = ids.mapNotNull { byId[it] }
+        val newList = ArrayList<Song>(ids.size)
+        for (id in ids) {
+            byId[id]?.let { newList.add(it) }
+        }
         if (newList.isEmpty()) return
         playlist = newList
         val start = pos.coerceIn(0, newList.lastIndex)
